@@ -6,7 +6,7 @@ with open("README.md", "r", encoding = "utf-8") as fh:
 setuptools.setup(
     name = "mongol-register-parser",
     version = "0.0.2",
-    author = "author",
+    author = "Ganbaatar Bold",
     author_email = "elmerganbaa@gmail.com",
     description = "mongol register parser",
     long_description = long_description,
