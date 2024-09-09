@@ -1,4 +1,8 @@
 ## Суулгах:
+https://pypi.org/project/mongol-register-parser/
+
+эсвэл
+
 ```
 pip install mongol-register-parser
 ```
