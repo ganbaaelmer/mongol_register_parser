@@ -1,6 +1,13 @@
 Ашиглах заавар:
 
-[github - ](https://github.com/ganbaaelmer/mongol_register_parser) -с харна уу
+from mongol_register_parser import mongol_register_parser
+
+# test result:
+fileName='fiveHundred.csv'
+register_number_column = "reg_number"
+
+newPandasDataFrame = mongol_register_parser.mongol_register_parser(fileName, register_number_column)
+
 
 Тайлбар:
 

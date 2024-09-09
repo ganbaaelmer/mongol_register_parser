@@ -1,12 +1,12 @@
 Metadata-Version: 2.1
-Name: mongol-register-parser
-Version: 0.0.1
+Name: mongol_register_parser
+Version: 0.0.3
 Summary: mongol register parser
-Home-page: https://github.com/ganbaaelmer/mongol-register-parser.git
+Home-page: https://github.com/ganbaaelmer/mongol_register_parser.git
 Author: Ganbaatar Bold
 Author-email: elmerganbaa <elmerganbaa@gmail.com>
-Project-URL: Homepage, https://github.com/pypa/sampleproject
-Project-URL: Issues, https://github.com/pypa/sampleproject/issues
+Project-URL: Homepage, https://github.com/ganbaaelmer/mongol_register_parser
+Project-URL: Issues, https://github.com/ganbaaelmer/mongol_register_parser
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
@@ -16,17 +16,7 @@ License-File: LICENSE
 
 Ашиглах заавар:
 
-import mongol_register_parser
-
-fileName='your_file_name.csv'
-
-register_number_column = "register_number_column_name"
-
-newPandasDataFrame = mongol_register_parser(fileName, register_number_column)
-
-үр дүн:
-
-newPandasDataFrame pandas dataframe
+[github - ](https://github.com/ganbaaelmer/mongol_register_parser) -с харна уу
 
 Тайлбар:
 
