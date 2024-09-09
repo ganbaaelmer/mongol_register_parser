@@ -3,13 +3,17 @@
 import mongol_register_parser
 
 fileName='your_file_name.csv'
+
 register_number_column = "register_number_column_name"
+
 newPandasDataFrame = mongol_register_parser(fileName, register_number_column)
 
 үр дүн:
+
 newPandasDataFrame pandas dataframe
 
 Тайлбар:
+
 -Уг parser нь 1930-с 1940 онд хүртэлх төрсөн хүмүүсийг Регистрийн дугаарыг бододгүй.
 -Хэрэв буруу Регистрийн дугаар орж ирвэл 1700 оны 01 сарын 01 гэж хадгалдаг тул анхаарна уу.
 
