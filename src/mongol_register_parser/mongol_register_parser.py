@@ -125,7 +125,7 @@ def mongol_register_parser(fileName, register_number_column):
 
 
     #cut 500 samples for test
-    df = df.sample(n=min(50, len(df)), replace=True, random_state=42)
+    #df = df.sample(n=min(50, len(df)), replace=True, random_state=42)
     # #to csv
     # df.to_csv('fiveHundred.csv', index=False)
 
