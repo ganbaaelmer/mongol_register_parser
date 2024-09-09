@@ -11,8 +11,8 @@ pip install mongol-register-parser
 ```
 from mongol_register_parser import mongol_register_parser
 
-fileName='fiveHundred.csv'
-register_number_column = "reg_number"
+fileName='your_file_name.csv'
+register_number_column = "register_number_column_name"
 
 newPandasDataFrame = mongol_register_parser.mongol_register_parser(fileName, register_number_column)
 ```
