@@ -4,8 +4,8 @@ with open("README.md", "r", encoding = "utf-8") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name = "mongol-register-parser",
-    version = "0.0.2",
+    name = "mongol_register_parser",
+    version = "0.0.1",
     author = "Ganbaatar Bold",
     author_email = "elmerganbaa@gmail.com",
     description = "mongol register parser",

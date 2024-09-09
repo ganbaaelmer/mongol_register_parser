@@ -1,5 +1,5 @@
 [project]
-name = "mongol-register-parser"
+name = "mongol_register_parser"
 version = "0.0.1"
 authors = [
   { name="elmerganbaa", email="elmerganbaa@gmail.com" },
