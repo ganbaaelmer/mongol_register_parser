@@ -1,3 +1,8 @@
+## Суулгах:
+```
+pip install mongol-register-parser
+```
+
 ## Ашиглах заавар:
 ```
 from mongol_register_parser import mongol_register_parser
