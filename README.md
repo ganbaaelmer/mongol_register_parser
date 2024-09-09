@@ -1,16 +1,6 @@
 Ашиглах заавар:
 
-import mongol_register_parser
-
-fileName='your_file_name.csv'
-
-register_number_column = "register_number_column_name"
-
-newPandasDataFrame = mongol_register_parser(fileName, register_number_column)
-
-үр дүн:
-
-newPandasDataFrame pandas dataframe
+[github - ](https://github.com/ganbaaelmer/mongol_register_parser) -с харна уу
 
 Тайлбар:
 

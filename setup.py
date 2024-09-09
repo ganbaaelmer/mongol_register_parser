@@ -11,9 +11,9 @@ setuptools.setup(
     description = "mongol register parser",
     long_description = long_description,
     long_description_content_type = "text/markdown",
-    url = "https://github.com/ganbaaelmer/mongol-register-parser.git",
+    url = "https://github.com/ganbaaelmer/mongol_register_parser.git",
     project_urls = {
-        "Bug Tracker": "https://github.com/ganbaaelmer/mongol-register-parser.git",
+        "Bug Tracker": "https://github.com/ganbaaelmer/mongol_register_parser.git",
     },
     classifiers = [
         "Programming Language :: Python :: 3",
