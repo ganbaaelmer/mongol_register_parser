@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type = "text/markdown",
     url = "https://github.com/ganbaaelmer/mongol-register-parser.git",
     project_urls = {
-        "Bug Tracker": "package issues URL",
+        "Bug Tracker": "https://github.com/ganbaaelmer/mongol-register-parser.git",
     },
     classifiers = [
         "Programming Language :: Python :: 3",
