@@ -1,2 +1,3 @@
-mongol_register_parser\src\first_merged_result.csv
+src/first_merged_result.csv
+src/mongol_register_parser/ordered_merged_result.csv
 .pypirc

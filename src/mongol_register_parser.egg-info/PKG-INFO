@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mongol_register_parser
-Version: 0.0.3
+Version: 0.0.4
 Summary: mongol register parser
 Home-page: https://github.com/ganbaaelmer/mongol_register_parser.git
 Author: Ganbaatar Bold
@@ -14,11 +14,38 @@ Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
-Ашиглах заавар:
+## Суулгах:
 
-[github - ](https://github.com/ganbaaelmer/mongol_register_parser) -с харна уу
+https://pypi.org/project/mongol-register-parser/
 
-Тайлбар:
+https://github.com/ganbaaelmer/mongol_register_parser
+
+эсвэл
+
+```
+
+pip install mongol-register-parser
+
+```
+
+## Ашиглах заавар:
+
+```
+
+from mongol_register_parser import mongol_register_parser
+
+fileName='your_file_name.csv'
+
+register_number_column = "register_number_column_name"
+
+newPandasDataFrame = mongol_register_parser.mongol_register_parser(fileName, register_number_column)
+
+```
+## Үр дүн:
+
+newPandasDataFrame дотор age, birthYear,  birthMonth,  birthDay гэсэн баганууд үүснэ.
+
+## Тайлбар:
 
 -Уг parser нь 1930-с 1940 онд хүртэлх төрсөн хүмүүсийг Регистрийн дугаарыг бододгүй.
 -Хэрэв буруу Регистрийн дугаар орж ирвэл 1700 оны 01 сарын 01 гэж хадгалдаг тул анхаарна уу.

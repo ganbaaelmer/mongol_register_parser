@@ -25,9 +25,17 @@ from datetime import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import numpy as np
+from tqdm import tqdm
 
 
 newPandasDataFrame = pd.DataFrame()
+
+#for fix BUG: df.loc astype type change on specific row not working #59732
+pd.options.future.infer_string = True
+
+#Remove symbols and return alphanumerics
+def alphanum(element):
+    return "".join(filter(str.isalnum, element))
 
 
 #extract_birthday
@@ -40,7 +48,7 @@ def extract_birthday(birth):
     birthYear = int(birth[0:2])
     birthMonth = int(birth[2:4])
     birthDay = int(birth[4:6])
-    # gender = int(birth[6:])
+    # gender = int(birth[6:7])
     if (birthMonth==2 and birthDay>29) or (birthMonth == 4 and birthDay>30) or (birthMonth == 6 and birthDay>30) or (birthMonth == 9 and birthDay>30) or (birthMonth == 11 and birthDay>30):
         print('wrong datetime 1')
         birthYear = 1700
@@ -133,20 +141,29 @@ def mongol_register_parser(fileName, register_number_column):
     print('\n-----', fileName, len(df))
     df.head(3)
 
+    # Convert the 'register_number_column' column to numeric type; set non-numeric values to NaN
+    #df[register_number_column] = pd.to_numeric(df[register_number_column], errors="coerce")
+    #df[register_number_column] = df[register_number_column].str.replace(r'\D+', '', regex=True)
+    df[register_number_column] = df[register_number_column].astype('str')
+    df.loc[:,register_number_column] = [alphanum(x) for x in df[register_number_column]]
+
+
+
     # Fill the empty rows in register_number_column column with 'aa33333333'
     df[register_number_column] = df[register_number_column].fillna('aa3311111').replace('', 'aa3311111')
 
-
-    empty_rows = df[df[register_number_column].isna() | (df[register_number_column] == '')]
     # Optionally display the rows with empty register_number_column column
+    empty_rows = df[df[register_number_column].isna() | (df[register_number_column] == '')]
     print('empty rows:  ', len(empty_rows))
 
-    #change dtype
+    #change dtype to string
     df.reg_number_cut = df[register_number_column].astype('string')
 
     df['reg_number_cut'] = df[register_number_column].str[2:9]
+    #df['reg_number_cut'] = df[register_number_column]
     data_frame = df
 
+    #main loop
     newPandasDataFrame = looper(data_frame, register_number_column)
 
     print(newPandasDataFrame)
@@ -159,3 +176,15 @@ def mongol_register_parser(fileName, register_number_column):
 # fileName='first_merged_result.csv'
 # register_number_column = "reg_number"
 # newPandasDataFrame = mongol_register_parser(fileName, register_number_column)
+
+
+
+# from mongol_register_parser import mongol_register_parser
+
+# fileName='ordered_merged_result.csv'
+# register_number_column = "reg_number"
+
+# newPandasDataFrame = mongol_register_parser(fileName, register_number_column)
+
+# print(newPandasDataFrame[register_number_column])
+# print("------------done-------------")
