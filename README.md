@@ -18,7 +18,7 @@ pip install mongol-register-parser
 
 from mongol_register_parser import mongol_register_parser
 
-fileName='your_file_name.csv'
+fileName ='your_file_name.csv'
 
 register_number_column = "register_number_column_name"
 
