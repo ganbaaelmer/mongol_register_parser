@@ -225,9 +225,9 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
 # #loop_mode on cpu or gpu
 # loop_mode="cpu"
 
-your_csv_file_name='ordered_merged_result.csv'
-register_number_column = "reg_number"
-df = mongol_register_parser(your_csv_file_name, register_number_column)
+# your_csv_file_name='ordered_merged_result.csv'
+# register_number_column = "reg_number"
+# df = mongol_register_parser(your_csv_file_name, register_number_column)
 
 # print(df.head(5))
 

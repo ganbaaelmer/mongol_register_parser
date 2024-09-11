@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mongol_register_parser
-Version: 0.0.6
+Version: 0.0.7
 Summary: mongol register parser
 Home-page: https://github.com/ganbaaelmer/mongol_register_parser.git
 Author: Ganbaatar Bold
@@ -39,7 +39,7 @@ fileName ='your_file_name.csv'
 
 register_number_column = "register_number_column_name"
 
-df = mongol_register_parser(your_csv_file_name, register_number_column_name)
+df = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_number_column_name)
 
 ```
 ## Үр дүн:

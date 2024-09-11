@@ -23,7 +23,7 @@ fileName ='your_file_name.csv'
 
 register_number_column = "register_number_column_name"
 
-df = mongol_register_parser(your_csv_file_name, register_number_column_name)
+df = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_number_column_name)
 
 ```
 ## Үр дүн:
