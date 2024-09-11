@@ -18,16 +18,19 @@ pip install mongol-register-parser
 
 from mongol_register_parser import mongol_register_parser
 
+
 fileName ='your_file_name.csv'
 
 register_number_column = "register_number_column_name"
 
-newPandasDataFrame = mongol_register_parser.mongol_register_parser(fileName, register_number_column)
+df = mongol_register_parser(your_csv_file_name, register_number_column_name)
 
 ```
 ## Үр дүн:
 
-newPandasDataFrame дотор age, birthYear,  birthMonth,  birthDay гэсэн баганууд үүснэ.
+df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderColumn  гэсэн баганууд үүснэ.
+
+age_added.csv гэсэн файл дискэн дээр хадгалагдана.
 
 ## Тайлбар:
 

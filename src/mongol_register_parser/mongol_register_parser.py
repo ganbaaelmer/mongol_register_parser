@@ -25,111 +25,96 @@ from datetime import datetime
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import numpy as np
+import numba as nb
 from tqdm import tqdm
+# from numba import njit, jit, cuda
+import time 
 
 
 newPandasDataFrame = pd.DataFrame()
+now = date.today()
 
 #for fix BUG: df.loc astype type change on specific row not working #59732
 pd.options.future.infer_string = True
 
+
 #Remove symbols and return alphanumerics
 def alphanum(element):
     return "".join(filter(str.isalnum, element))
+#Remove symbols & characters and return numbers only
+def numbers(element):
+    return "".join(filter(str.isnumeric, element))
 
 
-#extract_birthday
-def extract_birthday(birth):
+# @nb.njit((nb.float64[:], nb.float64[:], nb.float64[:]))
+def looper(birthYearColumn,birthMonthColumn,birthDayColumn, reg_number_cut):
+    birthColumn = [0] * birthYearColumn.shape[0]
+    ageColumn = [0] * birthYearColumn.shape[0]
 
-    print('-----input:', birth)
-    print('-----input birth year cut: ', birth[0:2])
-    print('-----input birth month cut: ', birth[3:5])
-    print('-----input birth day cut: ', birth[4:6])
-    birthYear = int(birth[0:2])
-    birthMonth = int(birth[2:4])
-    birthDay = int(birth[4:6])
-    # gender = int(birth[6:7])
-    if (birthMonth==2 and birthDay>29) or (birthMonth == 4 and birthDay>30) or (birthMonth == 6 and birthDay>30) or (birthMonth == 9 and birthDay>30) or (birthMonth == 11 and birthDay>30):
-        print('wrong datetime 1')
-        birthYear = 1700
-        birthMonth = 1
-        birthDay = 1
-    elif (birthYear)>40 and birthMonth<13 and birthDay<32:
-        birthYear = 1900 + birthYear
-        birthMonth = birthMonth
-        birthDay = birthDay
-    elif (birthYear)<30 and(birthYear)<25 and birthMonth<13 and birthDay<32:
-        birthYear = 2000 + birthYear
-        birthMonth = abs(birthMonth - 20)
-        birthDay = birthDay
-        # gender = gender
-        # print("genzGender: ", gender)
-    else:
-        print('wrong datetime 2 - else')
-        birthYear = 1700
-        birthMonth = 1
-        birthDay = 1
+    for i in tqdm(range(birthYearColumn.shape[0]), desc = 'parsing birthday and age'):
+        #print('input: ', reg_number_cut)
 
-    print("birthYear: ", birthYear)
-    print("birthMonth: ", birthMonth)
-    print("birthDay: ", birthDay)
+        if len(str(reg_number_cut[i])) < 5:
+            birthYearColumn[i] = 1000
+            birthMonthColumn[i] = 1
+            birthDayColumn[i] = 1
+        elif (birthMonthColumn[i]==2 and birthDayColumn[i]>29) or (birthMonthColumn[i] == 4 and birthDayColumn[i]>30) or (birthMonthColumn[i] == 6 and birthDayColumn[i]>30) or (birthMonthColumn[i] == 9 and birthDayColumn[i]>30) or (birthMonthColumn[i] == 11 and birthDayColumn[i]>30):
+            #print('wrong datetime 1')
+            birthYearColumn[i] = 1100
+            birthMonthColumn[i] = 1
+            birthDayColumn[i] = 1
+        elif (birthYearColumn[i])>40 and birthMonthColumn[i]<13 and birthDayColumn[i]<32:
+            birthYearColumn[i] = 1900 + birthYearColumn[i]
+            birthMonthColumn[i] = birthMonthColumn[i]
+            birthDayColumn[i] = birthDayColumn[i]
+        elif (birthYearColumn[i])<30 and (birthMonthColumn[i]<33 and birthMonthColumn[i]>20) and birthDayColumn[i]<32:
+            birthYearColumn[i] = 2000 + birthYearColumn[i]
+            birthMonthColumn[i] = abs(birthMonthColumn[i] - 20)
+            birthDayColumn[i] = birthDayColumn[i]
+        else:
+            #print('wrong datetime 2 - else')
+            birthYearColumn[i] = 1200
+            birthMonthColumn[i] = 1
+            birthDayColumn[i] = 1
+        
+        #month date fixer
+        if birthMonthColumn[i]>12 or birthMonthColumn[i]<1:
+            birthMonthColumn[i]=1
+        if birthDayColumn[i]>31 or birthDayColumn[i]<1:
+            birthDayColumn[i]=1
+        #print('                         : ', i)
+
+        #birthdate calculator
+        birthYear = int(birthYearColumn[i])
+        birthMonth = int(birthMonthColumn[i])
+        birthDay = int(birthDayColumn[i])
+        
+        birthYear = str(birthYear)
+        birthMonth = str(birthMonth)
+        birthDay = str(birthDay)
+
+        date_str  = birthYear + "-" + birthMonth + "-" + birthDay
+        #print("birth_date: ", date_str)
+        date_format = '%Y-%m-%d'
+        date_obj = datetime.strptime(date_str, date_format)
+        age = relativedelta(now, date_obj).years
+
+        birthColumn[i] = date_obj
+        ageColumn[i] = age
+
+    #print(birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn)
+    print("loop done")
+    return birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn
     
-    #month date fixer
-    if birthMonth>12 or birthMonth<1:
-        birthMonth=1
-    if birthDay>31 or birthDay<1:
-        birthDay=1
-        
-    #birthdate calculator
-    birthYear = str(birthYear)
-    birthMonth = str(birthMonth)
-    birthDay = str(birthDay)
-    date_str  = birthYear + "-" + birthMonth + "-" + birthDay
-    print("--birth_date: ", date_str)
-    date_format = '%Y-%m-%d'
-    date_obj = datetime.strptime(date_str, date_format)
-    print(date_obj)
-    now = date.today()
-    print(now)
-    age = relativedelta(now, date_obj).years
-        
-    return age, birthYear, birthMonth, birthDay
 
-
-#looper
-def looper(data_frame, register_number_column):
-    df = data_frame
-
-    for index, row in df.iterrows():
-        print('\n\nreg_number: ', "[",df[register_number_column][index],"]", "\nindex: ", index)
-        text = df.loc[index, 'reg_number_cut']
-        text = str(text)
-        text = text.replace(" ", "")
-        birth = text[:7]
-        
-        if len(birth)<6:
-            birth="3211111"
-
-        print('birth: ', birth, len(birth))
-        age, birthYear, birthMonth, birthDay = extract_birthday(birth)
-        
-        df.loc[index, 'age'] = age
-        df.loc[index, 'birthYear'] = birthYear
-        df.loc[index, 'birthMonth'] = birthMonth
-        df.loc[index, 'birthDay'] = birthDay
-        print('age: ', df.loc[index, 'age'])
-        
-    newPandasDataFrame = df
-
-    return newPandasDataFrame 
-    
 
 #mongol_register_parser
-def mongol_register_parser(fileName, register_number_column):
+# @njit
+def mongol_register_parser(your_csv_file_name, register_number_column):
     # register number fixer
 
 
-    df = pd.read_csv(fileName) #, low_memory=False
+    df = pd.read_csv(your_csv_file_name) #, low_memory=False
 
 
     #cut 500 samples for test
@@ -138,53 +123,100 @@ def mongol_register_parser(fileName, register_number_column):
     # df.to_csv('fiveHundred.csv', index=False)
 
 
-    print('\n-----', fileName, len(df))
+    print('\n-----', your_csv_file_name,' file loaded. total row count: ', len(df))
     df.head(3)
 
     # Convert the 'register_number_column' column to numeric type; set non-numeric values to NaN
-    #df[register_number_column] = pd.to_numeric(df[register_number_column], errors="coerce")
-    #df[register_number_column] = df[register_number_column].str.replace(r'\D+', '', regex=True)
     df[register_number_column] = df[register_number_column].astype('str')
-    df.loc[:,register_number_column] = [alphanum(x) for x in df[register_number_column]]
 
+    #Remove symbols and return alphanumerics
+    df.loc[:,register_number_column] = [alphanum(x) for x in df[register_number_column]]
+    #Remove symbols & characters and return numbers only
+    # df.loc[:,register_number_column] = [numbers(x) for x in df[register_number_column]]
+
+
+    empty_rows = df[df[register_number_column].isna() | (df[register_number_column] == '')]
+    print('\nbefore fill: empty rows in register_number_column:  ', len(empty_rows))
 
 
     # Fill the empty rows in register_number_column column with 'aa33333333'
     df[register_number_column] = df[register_number_column].fillna('aa3311111').replace('', 'aa3311111')
 
-    # Optionally display the rows with empty register_number_column column
+    # Optionally display print() the rows with empty register_number_column column
     empty_rows = df[df[register_number_column].isna() | (df[register_number_column] == '')]
-    print('empty rows:  ', len(empty_rows))
-
-    #change dtype to string
-    df.reg_number_cut = df[register_number_column].astype('string')
+    print('\nafter fill: empty rows in register_number_column:  ', len(empty_rows))
+    
 
     df['reg_number_cut'] = df[register_number_column].str[2:9]
-    #df['reg_number_cut'] = df[register_number_column]
-    data_frame = df
 
-    #main loop
-    newPandasDataFrame = looper(data_frame, register_number_column)
 
-    print(newPandasDataFrame)
-    print("\nDone--------------------------")
+    #Remove symbols & characters and return numbers only
+    df.loc[:,"reg_number_cut"] = [numbers(x) for x in df["reg_number_cut"]]
+
+    # Fill the empty rows in register_number_column column with '3311111'
+    df["reg_number_cut"] = df["reg_number_cut"].fillna('3311111').replace('', '3311111')
+
+
+    df['birthYear'] = df["reg_number_cut"].str[0:2]
+    df['birthMonth'] = df["reg_number_cut"].str[2:4]
+    df['birthDay'] = df["reg_number_cut"].str[4:6]
+    #genderColumn
+    df['genderColumn'] = df["reg_number_cut"].str[6:7]
+    print('\n--gender:', df['genderColumn'])
     
-    return newPandasDataFrame
 
 
-# test result:
-# fileName='first_merged_result.csv'
+    # error here?
+    df['reg_number_cut'] = pd.to_numeric(df['reg_number_cut'])
+    # error here?
+    df['birthYear'] = pd.to_numeric(df['birthYear'])
+    df['birthMonth'] = pd.to_numeric(df['birthMonth'])
+    df['birthDay'] = pd.to_numeric(df['birthDay'])
+
+
+    print("\n************reg_number_cut ", df['reg_number_cut'].dtype)
+    print("************", df['reg_number_cut'])
+    print("************reg_number_cut isnull(): ",df['reg_number_cut'].isnull().sum())
+    print("************reg_number_cut isna(): ",df['reg_number_cut'].isna().sum().sum())
+
+    print("\n************birthYear ", df['birthYear'].dtype)
+    print("************", df['birthYear'])
+    print("************birthYear isnull(): ",df['birthYear'].isnull().sum())
+    print("************birthYear isna(): ",df['birthYear'].isna().sum().sum())
+    print('\n')
+
+    df["birthColumn"] = ""
+    df["ageColumn"] = ""
+
+    #main loop df-g numpy bolgood column aar ni oruulj irj bn
+    birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn = looper(df.birthYear.to_numpy(), df.birthMonth.to_numpy(), df.birthDay.to_numpy(), df.reg_number_cut.to_numpy())
+
+    df['birthYear'] = birthYearColumn
+    df['birthMonthColumn'] = birthMonthColumn
+    df['birthDayColumn'] = birthDayColumn
+    df['birthColumn'] = birthColumn
+    df['ageColumn'] = ageColumn
+
+    print("\nsaving age_added.csv to disk .........")
+    df.to_csv('age_added.csv', encoding='utf-8', index=False, header=True)
+    print("age_added.csv file saved to disk!\nparser Done!")
+    
+    #return newPandasDataFrame
+    return df
+
+
+
+#test:
+
+# your_csv_file_name='ordered_merged_result.csv'
 # register_number_column = "reg_number"
-# newPandasDataFrame = mongol_register_parser(fileName, register_number_column)
+# #loop_mode on cpu or gpu
+# loop_mode="cpu"
 
 
+# df = mongol_register_parser(your_csv_file_name, register_number_column)
 
-# from mongol_register_parser import mongol_register_parser
+# print(df.head(5))
 
-# fileName='ordered_merged_result.csv'
-# register_number_column = "reg_number"
-
-# newPandasDataFrame = mongol_register_parser(fileName, register_number_column)
-
-# print(newPandasDataFrame[register_number_column])
+# # print(newPandasDataFrame[register_number_column])
 # print("------------done-------------")
