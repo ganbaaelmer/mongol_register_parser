@@ -47,9 +47,10 @@ def numbers(element):
 
 
 # @nb.njit((nb.float64[:], nb.float64[:], nb.float64[:]))
-def looper(birthYearColumn,birthMonthColumn,birthDayColumn, reg_number_cut):
+def looper(birthYearColumn,birthMonthColumn,birthDayColumn, reg_number_cut, genderColumn):
     birthColumn = [0] * birthYearColumn.shape[0]
     ageColumn = [0] * birthYearColumn.shape[0]
+    genderExtractedColumn = [0] * birthYearColumn.shape[0]
 
     for i in tqdm(range(birthYearColumn.shape[0]), desc = 'parsing birthday and age'):
         #print('input: ', reg_number_cut)
@@ -101,10 +102,19 @@ def looper(birthYearColumn,birthMonthColumn,birthDayColumn, reg_number_cut):
 
         birthColumn[i] = date_obj
         ageColumn[i] = age
+        # print("\n\reg_number_cut[i]: ", reg_number_cut[i], '\n')
+        # print("\n\ngenderColumn[i]: ", genderColumn[i], '\n\n')
+
+        if genderColumn[i] == 1.0:
+            genderExtractedColumn[i] = "male"
+        elif genderColumn[i] == 0:
+            genderExtractedColumn[i] = "female"
+        else:
+            genderExtractedColumn[i] = "unknown_gender"
 
     #print(birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn)
     print("loop done")
-    return birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn
+    return birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn
     
 
 
@@ -172,8 +182,9 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
     df['birthYear'] = pd.to_numeric(df['birthYear'])
     df['birthMonth'] = pd.to_numeric(df['birthMonth'])
     df['birthDay'] = pd.to_numeric(df['birthDay'])
+    df['genderColumn'] = pd.to_numeric(df['genderColumn'])
 
-
+    #print test
     print("\n************reg_number_cut ", df['reg_number_cut'].dtype)
     print("************", df['reg_number_cut'])
     print("************reg_number_cut isnull(): ",df['reg_number_cut'].isnull().sum())
@@ -185,17 +196,19 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
     print("************birthYear isna(): ",df['birthYear'].isna().sum().sum())
     print('\n')
 
+    #prepare empty columns
     df["birthColumn"] = ""
     df["ageColumn"] = ""
 
     #main loop df-g numpy bolgood column aar ni oruulj irj bn
-    birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn = looper(df.birthYear.to_numpy(), df.birthMonth.to_numpy(), df.birthDay.to_numpy(), df.reg_number_cut.to_numpy())
+    birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn = looper(df.birthYear.to_numpy(), df.birthMonth.to_numpy(), df.birthDay.to_numpy(), df.reg_number_cut.to_numpy(), df.genderColumn.to_numpy())
 
     df['birthYear'] = birthYearColumn
     df['birthMonthColumn'] = birthMonthColumn
     df['birthDayColumn'] = birthDayColumn
     df['birthColumn'] = birthColumn
     df['ageColumn'] = ageColumn
+    df['genderExtractedColumn'] = genderExtractedColumn
 
     print("\nsaving age_added.csv to disk .........")
     df.to_csv('age_added.csv', encoding='utf-8', index=False, header=True)
@@ -208,13 +221,13 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
 
 #test:
 
-# your_csv_file_name='ordered_merged_result.csv'
-# register_number_column = "reg_number"
+
 # #loop_mode on cpu or gpu
 # loop_mode="cpu"
 
-
-# df = mongol_register_parser(your_csv_file_name, register_number_column)
+your_csv_file_name='ordered_merged_result.csv'
+register_number_column = "reg_number"
+df = mongol_register_parser(your_csv_file_name, register_number_column)
 
 # print(df.head(5))
 

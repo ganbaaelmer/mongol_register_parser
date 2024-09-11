@@ -28,14 +28,15 @@ df = mongol_register_parser(your_csv_file_name, register_number_column_name)
 ```
 ## Үр дүн:
 
-df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderColumn  гэсэн баганууд үүснэ.
+df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn  гэсэн баганууд үүснэ.
 
 age_added.csv гэсэн файл дискэн дээр хадгалагдана.
+
 
 ## Тайлбар:
 
 -Уг parser нь 1930-с 1940 онд хүртэлх төрсөн хүмүүсийг Регистрийн дугаарыг бододгүй.
--Хэрэв буруу Регистрийн дугаар орж ирвэл 1700 оны 01 сарын 01 гэж хадгалдаг тул анхаарна уу.
+-Хэрэв буруу Регистрийн дугаар орж ирвэл 1000 - 1200 оны 01 сарын 01 гэж хадгалдаг тул анхаарна уу.
 
 Монгол регистрийн дугаарын эхний 2 орон буюу үсэг нь регистрийн дугаар авч байгаа иргэний байнга 
 оршин суудаг аймаг /дүүрэг/, сум /хороо/-ны код, дараагийн 6 орон нь төрсөн он, сар, өдөр 9 дэх орон нь хүйс, 
