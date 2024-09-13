@@ -29,7 +29,7 @@ df = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_
 
 ```
 
-### option1-н үр дүн:
+#### option1-н үр дүн:
 
 df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn  гэсэн баганууд үүснэ.
 
@@ -43,9 +43,10 @@ birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = mongol_regis
 
 ```
 
-### option2-н үр дүн:
 
-birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender утгууд буцаана үүснэ.
+#### option2-н үр дүн:
+
+birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender утгууд буцаана.
 
 ## Тайлбар:
 

@@ -116,7 +116,7 @@ def looper(birthYearColumn,birthMonthColumn,birthDayColumn, reg_number_cut, gend
     
 
 
-#mongol_register_parser
+#mongol_register_parser function------------------------------------------------------------
 # @njit
 def mongol_register_parser(your_csv_file_name, register_number_column):
     # register number fixer
@@ -219,7 +219,7 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
 
 #-----------------------------------for single register number---------------------------
 def single_register_parser(text):
-    birthplace = text[0:2]
+    birthplace = text[0:1]
     birthYear = text[2:4]
     birthMonth = text[4:6]
     birthDay = text[6:8]
@@ -229,6 +229,10 @@ def single_register_parser(text):
     birthMonth=int(birthMonth)
     birthDay=int(birthDay)
     gender=int(gender)
+
+    birthplace=birthplace.upper()
+
+    #if birthplace 
 
 
     if len(str(text)) < 5:
@@ -287,8 +291,6 @@ def single_register_parser(text):
 
     return birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender
     
-
-
 
 
 ## test for mongol_register_parser function ----------------------------
