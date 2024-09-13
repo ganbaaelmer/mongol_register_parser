@@ -39,7 +39,7 @@ age_added.csv гэсэн файл дискэн дээр хадгалагдана
 
 ```
 
-birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = single_register_parser(text)
+birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = mongol_register_parser.single_register_parser(text)
 
 ```
 
