@@ -24,7 +24,7 @@ def numbers(element):
     return "".join(filter(str.isnumeric, element))
 
 
-def birthplace_calculator(birthplace_two_digit):
+def birthplace_identifier(birthplace_two_digit):
 
     birthplace = birthplace_two_digit[0:1]
     birthplace=birthplace.upper()
@@ -266,7 +266,7 @@ def single_register_parser(text):
     gender=int(gender)
 
     #birthplace_calculator function
-    birthplace = birthplace_calculator(birthplace_two_digit)
+    birthplace = birthplace_identifier(birthplace_two_digit)
 
     if len(str(text)) < 5:
         birthYear = 1000
