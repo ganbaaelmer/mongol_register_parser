@@ -105,12 +105,10 @@ def looper(birthYearColumn,birthMonthColumn,birthDayColumn, reg_number_cut, gend
         # print("\n\reg_number_cut[i]: ", reg_number_cut[i], '\n')
         # print("\n\ngenderColumn[i]: ", genderColumn[i], '\n\n')
 
-        if genderColumn[i] == 1.0:
-            genderExtractedColumn[i] = "male"
-        elif genderColumn[i] == 0:
+        if genderColumn[i] % 2 == 0:
             genderExtractedColumn[i] = "female"
         else:
-            genderExtractedColumn[i] = "unknown_gender"
+             genderExtractedColumn[i] = "male"
 
     #print(birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn)
     print("loop done")
@@ -219,17 +217,90 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
 
 
 
-#test:
+#-----------------------------------for single register number---------------------------
+def single_register_parser(text):
+    birthplace = text[0:2]
+    birthYear = text[2:4]
+    birthMonth = text[4:6]
+    birthDay = text[6:8]
+    gender = text[8:9]
+
+    birthYear=int(birthYear)
+    birthMonth=int(birthMonth)
+    birthDay=int(birthDay)
+    gender=int(gender)
 
 
+    if len(str(text)) < 5:
+        birthYear = 1000
+        birthMonth = 1
+        birthDay = 1
+    elif (birthMonth==2 and birthDay>29) or (birthMonth == 4 and birthDay>30) or (birthMonth == 6 and birthDay>30) or (birthMonth == 9 and birthDay>30) or (birthMonth == 11 and birthDay>30):
+        #print('wrong datetime 1')
+        birthYear = 1100
+        birthMonth = 1
+        birthDay = 1
+    elif birthYear>40 and birthMonth<13 and birthDay<32:
+        birthYear = 1900 + birthYear
+        birthMonth = birthMonth
+        birthDay = birthDay
+    elif birthYear<30 and (birthMonth<33 and birthMonth>20) and birthDay<32:
+        birthYear = 2000 + birthYear
+        birthMonth = abs(birthMonth - 20)
+        birthDay = birthDay
+    else:
+        #print('wrong datetime 2 - else')
+        birthYear = 1200
+        birthMonth = 1
+        birthDay = 1
+    
+    #month date fixer
+    if birthMonth>12 or birthMonth<1:
+        birthMonth=1
+    if birthDay>31 or birthDay<1:
+        birthDay=1
+    #print('                         : ', i)
+
+    #birthdate calculator
+    birthYear = int(birthYear)
+    birthMonth = int(birthMonth)
+    birthDay = int(birthDay)
+    
+    birthYear = str(birthYear)
+    birthMonth = str(birthMonth)
+    birthDay = str(birthDay)
+
+    date_str  = birthYear + "-" + birthMonth + "-" + birthDay
+    #print("birth_date: ", date_str)
+    date_format = '%Y-%m-%d'
+    birthdate = datetime.strptime(date_str, date_format)
+    age = relativedelta(now, birthdate).years
+
+
+    if gender % 2 == 0:
+        gender = "female"
+    else:
+        gender = "male"
+
+    #print(birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn)
+    print("single register number extractor - done\n", "input: ", text, "\nbirthplace:",birthplace, "\nbirthYear:", birthYear, "\nbirthMonth:", birthMonth, "\nbirthDay:", birthDay, "\nbirthdate:", birthdate, "\nage:", age, "\ngender:", gender)
+
+    return birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender
+    
+
+
+
+
+## test for mongol_register_parser function ----------------------------
 # #loop_mode on cpu or gpu
 # loop_mode="cpu"
 
-# your_csv_file_name='ordered_merged_result.csv'
-# register_number_column = "reg_number"
-# df = mongol_register_parser(your_csv_file_name, register_number_column)
+your_csv_file_name='ordered_merged_result.csv'
+register_number_column = "reg_number"
+#df = mongol_register_parser(your_csv_file_name, register_number_column)
 
-# print(df.head(5))
 
-# # print(newPandasDataFrame[register_number_column])
-# print("------------done-------------")
+
+## test for single_register_parser function ----------------------------
+text = "АД01240585"
+#birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = single_register_parser(text)

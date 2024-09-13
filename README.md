@@ -14,6 +14,8 @@ pip install mongol-register-parser
 
 ## Ашиглах заавар:
 
+### option1: .csv файлаас регистерийн тугаарын мэдээллийг задлах:
+
 ```
 
 from mongol_register_parser import mongol_register_parser
@@ -26,12 +28,24 @@ register_number_column = "register_number_column_name"
 df = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_number_column_name)
 
 ```
-## Үр дүн:
+
+### option1-н үр дүн:
 
 df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn  гэсэн баганууд үүснэ.
 
 age_added.csv гэсэн файл дискэн дээр хадгалагдана.
 
+### option2: 1ш регистрийн тугаарын мэдээллийг задлах:
+
+```
+
+birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = single_register_parser(text)
+
+```
+
+### option2-н үр дүн:
+
+birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender утгууд буцаана үүснэ.
 
 ## Тайлбар:
 
