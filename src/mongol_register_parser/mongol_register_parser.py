@@ -1,25 +1,3 @@
-
-"""
-Тайлбар:
--Уг parser нь 1930-с 1940 онд хүртэлх төрсөн хүмүүсийг Регистрийн дугаарыг бододгүй.
--Хэрэв буруу Регистрийн дугаар орж ирвэл 1700 оны 01 сарын 01 гэж хадгалдаг тул анхаарна уу.
-
-Монгол регистрийн дугаарын эхний 2 орон буюу үсэг нь регистрийн дугаар авч байгаа иргэний байнга 
-оршин суудаг аймаг /дүүрэг/, сум /хороо/-ны код, дараагийн 6 орон нь төрсөн он, сар, өдөр 9 дэх орон нь хүйс, 
-сүүлийн нэг орон нь хяналтын код байна.
-
-Регистрийн эхний 2 тоон орон нь тухайн иргэний төрсөн оны сүүлийн 2 тоог тэмдэглэдэг. 
-Түүний дараагийн 2 орон төрсөн сарыг илэрхийлэх бөгөөд 2000 он болон түүнээс хойш төрсөн хүмүүсийн
-хувьд төрсөн сар дээр нь 20-ийг нэмж тэмдэглэдэг. Харин дараагийн 2 орон төрсөн өдрийг илэрхийлнэ.
-
-Регистрийн дугаарын сүүлээсээ 2 дахь тоо нь хүйсийг заах бөгөөд хэрвээ тус тоо сондгой бол хүйс нь эрэгтэй,
-үгүй бол эмэгтэй гэж үзнэ. Харин хамгийн сүүлийн орон бол, тус регистрийн дугаарыг үнэн оруулсан эсэхийг шалгахад
-ашиглагддаг тоо болно. Хэрхэн уг тоог ашиглан шалгаж болох талаар нээлттэй эх сурвалжуудад баттай мэдээлэл байхгүй ч,
-энэхүү нийтлэлийн коммент хэсэгт уг тоо регистрийн дугаарт орж байгаа үсэг болон тоонуудын нийлбэрийг тодорхой нэг
-тоонд хуваасны үлдэгдэлтэй тэнцэх ёстой гэх мэдээлэл байна.
-"""
-
-
 import pandas as pd
 from datetime import datetime
 from datetime import date
@@ -44,6 +22,61 @@ def alphanum(element):
 #Remove symbols & characters and return numbers only
 def numbers(element):
     return "".join(filter(str.isnumeric, element))
+
+
+def birthplace_calculator(birthplace_two_digit):
+
+    birthplace = birthplace_two_digit[0:1]
+    birthplace=birthplace.upper()
+
+    if birthplace == "А":
+        birthplace = "Архангай"
+    elif birthplace == "Б":
+        birthplace = "Баян-Өлгий"
+    elif birthplace == "В":
+        birthplace = "Баянхонгор"
+    elif birthplace == "Г":
+        birthplace = "Булган"
+    elif birthplace == "Д":
+        birthplace = "Говь-Алтай"
+    elif birthplace == "Е":
+        birthplace = "Дорноговь"
+    elif birthplace == "Ж":
+        birthplace = "Дорнод"
+    elif birthplace == "З":
+        birthplace = "Дундговь"
+    elif birthplace == "И":
+        birthplace = "Завхан"
+    elif birthplace == "Й":
+        birthplace = "Өвөрхангай"
+    elif birthplace == "К":
+        birthplace = "Өмнөговь"
+    elif birthplace == "Л":
+        birthplace = "Сүхбаатар"
+    elif birthplace == "М":
+        birthplace = "Сэлэнгэ"
+    elif birthplace == "Н":
+        birthplace = "Төв"
+    elif birthplace == "О":
+        birthplace = "Увс"
+    elif birthplace == "П":
+        birthplace = "Ховд"
+    elif birthplace == "Р":
+        birthplace = "Хөвсгөл"
+    elif birthplace == "С":
+        birthplace = "Хэнтий"
+    elif birthplace == "Т":
+        birthplace = "Дархан-Уул"
+    elif birthplace == "Ф":
+        birthplace = "Орхон"
+    elif birthplace == "Х":
+        birthplace = "Говьсүмбэр"
+    elif birthplace == "У" or birthplace == "Ч":
+        birthplace = "Улаанбаатар"
+    else :
+        birthplace = birthplace_two_digit
+    
+    return birthplace
 
 
 # @nb.njit((nb.float64[:], nb.float64[:], nb.float64[:]))
@@ -201,6 +234,7 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
     #main loop df-g numpy bolgood column aar ni oruulj irj bn
     birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn = looper(df.birthYear.to_numpy(), df.birthMonth.to_numpy(), df.birthDay.to_numpy(), df.reg_number_cut.to_numpy(), df.genderColumn.to_numpy())
 
+
     df['birthYear'] = birthYearColumn
     df['birthMonthColumn'] = birthMonthColumn
     df['birthDayColumn'] = birthDayColumn
@@ -219,7 +253,8 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
 
 #-----------------------------------for single register number---------------------------
 def single_register_parser(text):
-    birthplace = text[0:1]
+
+    birthplace_two_digit = text[0:2]
     birthYear = text[2:4]
     birthMonth = text[4:6]
     birthDay = text[6:8]
@@ -230,10 +265,8 @@ def single_register_parser(text):
     birthDay=int(birthDay)
     gender=int(gender)
 
-    birthplace=birthplace.upper()
-
-    #if birthplace 
-
+    #birthplace_calculator function
+    birthplace = birthplace_calculator(birthplace_two_digit)
 
     if len(str(text)) < 5:
         birthYear = 1000
@@ -292,7 +325,6 @@ def single_register_parser(text):
     return birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender
     
 
-
 ## test for mongol_register_parser function ----------------------------
 # #loop_mode on cpu or gpu
 # loop_mode="cpu"
@@ -302,7 +334,6 @@ register_number_column = "reg_number"
 #df = mongol_register_parser(your_csv_file_name, register_number_column)
 
 
-
 ## test for single_register_parser function ----------------------------
-text = "АД01240585"
+text = "уд01240585"
 #birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = single_register_parser(text)
