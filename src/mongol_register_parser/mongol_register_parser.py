@@ -24,6 +24,7 @@ def numbers(element):
     return "".join(filter(str.isnumeric, element))
 
 
+#birthplace_identifier function
 def birthplace_identifier(birthplace_two_digit):
 
     birthplace = birthplace_two_digit[0:1]
@@ -71,6 +72,8 @@ def birthplace_identifier(birthplace_two_digit):
         birthplace = "Орхон"
     elif birthplace == "Х":
         birthplace = "Говьсүмбэр"
+    elif birthplace == "Ш":
+        birthplace = "Эрдэнэт"
     elif birthplace == "У" or birthplace == "Ч":
         birthplace = "Улаанбаатар"
     else :
@@ -234,13 +237,23 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
     #main loop df-g numpy bolgood column aar ni oruulj irj bn
     birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn = looper(df.birthYear.to_numpy(), df.birthMonth.to_numpy(), df.birthDay.to_numpy(), df.reg_number_cut.to_numpy(), df.genderColumn.to_numpy())
 
+    #birthplace_identifier function
+    df["birthplace"]=df[register_number_column].str[0:2]
+    birthPlaceColumn = df["birthplace"]
 
+    for index in tqdm(range(birthPlaceColumn.shape[0]), desc = 'parsing birth place'):
+        birthPlaceColumn[index] = birthplace_identifier(birthPlaceColumn[index])
+
+
+
+    # assign to dataframe
     df['birthYear'] = birthYearColumn
     df['birthMonthColumn'] = birthMonthColumn
     df['birthDayColumn'] = birthDayColumn
     df['birthColumn'] = birthColumn
     df['ageColumn'] = ageColumn
     df['genderExtractedColumn'] = genderExtractedColumn
+    df['birthplace'] = birthPlaceColumn
 
     print("\nsaving age_added.csv to disk .........")
     df.to_csv('age_added.csv', encoding='utf-8', index=False, header=True)
@@ -265,7 +278,7 @@ def single_register_parser(text):
     birthDay=int(birthDay)
     gender=int(gender)
 
-    #birthplace_calculator function
+    #birthplace_identifier function
     birthplace = birthplace_identifier(birthplace_two_digit)
 
     if len(str(text)) < 5:
@@ -337,3 +350,6 @@ register_number_column = "reg_number"
 ## test for single_register_parser function ----------------------------
 text = "уд01240585"
 #birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = single_register_parser(text)
+
+
+
