@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mongol_register_parser
-Version: 0.0.9
+Version: 0.1.2
 Summary: mongol register parser
 Home-page: https://github.com/ganbaaelmer/mongol_register_parser.git
 Author: Ganbaatar Bold
@@ -13,6 +13,8 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
+
+# v0.1.2
 
 ## Суулгах:
 
@@ -30,7 +32,7 @@ pip install mongol-register-parser
 
 ## Ашиглах заавар:
 
-### option1: .csv файлаас регистерийн тугаарын мэдээллийг задлах:
+### -option1: .csv файлаас регистерийн тугаарын мэдээллийг задлах:
 
 ```
 
@@ -45,13 +47,15 @@ df = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_
 
 ```
 
-### option1-н үр дүн:
+#### үр дүн:
 
 df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn  гэсэн баганууд үүснэ.
 
 age_added.csv гэсэн файл дискэн дээр хадгалагдана.
 
-### option2: 1ш регистрийн тугаарын мэдээллийг задлах:
+
+
+### -option2: 1ш регистрийн тугаарын мэдээллийг задлах:
 
 ```
 
@@ -59,9 +63,10 @@ birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender = mongol_regis
 
 ```
 
-### option2-н үр дүн:
 
-birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender утгууд буцаана үүснэ.
+#### үр дүн:
+
+birthplace, birthYear,birthMonth,birthDay, birthdate, age, gender утгууд буцаана.
 
 ## Тайлбар:
 
