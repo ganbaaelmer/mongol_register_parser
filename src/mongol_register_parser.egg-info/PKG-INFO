@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mongol_register_parser
-Version: 0.1.2
+Version: 0.1.4
 Summary: mongol register parser
 Home-page: https://github.com/ganbaaelmer/mongol_register_parser.git
 Author: Ganbaatar Bold
@@ -14,7 +14,7 @@ Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
 
-# v0.1.2
+# v0.1.4
 
 ## Суулгах:
 
@@ -43,13 +43,15 @@ fileName ='your_file_name.csv'
 
 register_number_column = "register_number_column_name"
 
-df = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_number_column_name)
+df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_number_column_name)
 
 ```
 
 #### үр дүн:
 
-df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn  гэсэн баганууд үүснэ.
+df дотор df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn гэсэн баганууд үүснэ.
+
+df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn гэсэн list утгууд буцаана
 
 age_added.csv гэсэн файл дискэн дээр хадгалагдана.
 

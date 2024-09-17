@@ -260,7 +260,7 @@ def mongol_register_parser(your_csv_file_name, register_number_column):
     print("age_added.csv file saved to disk!\nparser Done!")
     
     #return newPandasDataFrame
-    return df
+    return df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn
 
 
 
@@ -344,7 +344,7 @@ def single_register_parser(text):
 
 your_csv_file_name='ordered_merged_result.csv'
 register_number_column = "reg_number"
-#df = mongol_register_parser(your_csv_file_name, register_number_column)
+#df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn = mongol_register_parser(your_csv_file_name, register_number_column)
 
 
 ## test for single_register_parser function ----------------------------

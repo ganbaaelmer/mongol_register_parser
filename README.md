@@ -1,4 +1,4 @@
-# v0.1.2
+# v0.1.4
 
 ## Суулгах:
 
@@ -27,13 +27,15 @@ fileName ='your_file_name.csv'
 
 register_number_column = "register_number_column_name"
 
-df = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_number_column_name)
+df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn = mongol_register_parser.mongol_register_parser(your_csv_file_name, register_number_column_name)
 
 ```
 
 #### үр дүн:
 
-df дотор age, birthYearColumn,birthMonthColumn,birthDayColumn, birthColumn, ageColumn, genderExtractedColumn  гэсэн баганууд үүснэ.
+df дотор df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn гэсэн баганууд үүснэ.
+
+df, birthYearColumn, birthMonthColumn, birthDayColumn, birthColumn, ageColumn, genderExtractedColumn, birthPlaceColumn гэсэн list утгууд буцаана
 
 age_added.csv гэсэн файл дискэн дээр хадгалагдана.
 
